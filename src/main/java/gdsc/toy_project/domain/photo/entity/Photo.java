@@ -2,6 +2,7 @@ package gdsc.toy_project.domain.photo.entity;
 
 import gdsc.toy_project.domain.album.entity.Album;
 import gdsc.toy_project.global.entity.BaseTimeEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,18 @@ public class Photo extends BaseTimeEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "album_id")
     private Album album;
+
+    @Builder
+    public Photo(Long id, String name, String file_path, Album album) {
+        this.id = id;
+        this.name = name;
+        this.file_path = file_path;
+        this.album = album;
+    }
+
+    public void CreatePhoto(String name, String file_path, Album album) {
+        this.name = name;
+        this.file_path = file_path;
+        this.album = album;
+    }
 }
