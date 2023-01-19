@@ -22,7 +22,6 @@ public class Photo extends BaseTimeEntity {
     @Column(name = "photo_id")
     private Long id;
 
-    private String name;
     private String file_path;
 
     @ManyToOne(fetch = LAZY)
@@ -30,15 +29,13 @@ public class Photo extends BaseTimeEntity {
     private Album album;
 
     @Builder
-    public Photo(Long id, String name, String file_path, Album album) {
+    public Photo(Long id, String file_path, Album album) {
         this.id = id;
-        this.name = name;
         this.file_path = file_path;
         this.album = album;
     }
 
-    public void CreatePhoto(String name, String file_path, Album album) {
-        this.name = name;
+    public void CreatePhoto(String file_path, Album album) {
         this.file_path = file_path;
         this.album = album;
     }
