@@ -1,6 +1,6 @@
 package gdsc.toy_project.global.security;
 
-import gdsc.toy_project.global.error.ErrorCode;
+import gdsc.toy_project.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

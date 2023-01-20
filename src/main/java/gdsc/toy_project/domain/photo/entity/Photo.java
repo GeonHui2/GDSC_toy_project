@@ -1,6 +1,7 @@
 package gdsc.toy_project.domain.photo.entity;
 
-import gdsc.toy_project.domain.album.entity.Album;
+import gdsc.toy_project.domain.Category;
+import gdsc.toy_project.domain.user.entity.User;
 import gdsc.toy_project.global.entity.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
@@ -22,21 +24,30 @@ public class Photo extends BaseTimeEntity {
     @Column(name = "photo_id")
     private Long id;
 
-    private String file_path;
+    private String uploadFilename;  // 작성자가 업로드한 파일명
+    private String storeFilename;
+
+    @Enumerated(STRING)
+    private Category category;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "album_id")
-    private Album album;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Builder
-    public Photo(Long id, String file_path, Album album) {
-        this.id = id;
-        this.file_path = file_path;
-        this.album = album;
+    public Photo(String uploadFilename, String storeFilename, User user, Category category) {
+        this.uploadFilename = uploadFilename;
+        this.storeFilename = storeFilename;
+        this.user = user;
+        this.category = category;
     }
 
-    public void CreatePhoto(String file_path, Album album) {
-        this.file_path = file_path;
-        this.album = album;
+    public void AddPhoto(String uploadFilename, String storeFilename, Category category) {
+        this.uploadFilename = uploadFilename;
+        this.storeFilename = storeFilename;
+        this.category = category;
     }
+
+
+
 }

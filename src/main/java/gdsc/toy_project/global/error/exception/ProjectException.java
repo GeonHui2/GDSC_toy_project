@@ -1,26 +1,11 @@
 package gdsc.toy_project.global.error.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Getter
+@AllArgsConstructor
 public abstract class ProjectException extends RuntimeException{
 
-    public final Map<String, String> validation = new HashMap<>();
-
-    public ProjectException(String message) {
-        super(message);
-    }
-
-    public ProjectException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public abstract int getStatusCode();
-
-    public void addValidation(String fieldName, String message) {
-        validation.put(fieldName, message);
-    }
+    private ErrorCode errorCode;
 }

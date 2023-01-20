@@ -1,4 +1,4 @@
-package gdsc.toy_project.global.error;
+package gdsc.toy_project.global.error.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -15,11 +15,15 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
 
     // 사진 업로드
-    @Transactional
-    public
+    //@Transactional
+    //public
     // 사진 상세 정보 조회
 
     // 사진 카테고리 변경
 
     // 사진 삭제
+
+    // 카테고리별 리스트 조회
+
+    // 사진 리스트 조회
 }
