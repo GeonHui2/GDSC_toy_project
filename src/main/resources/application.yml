@@ -11,10 +11,9 @@ spring:
       hibernate:
         format_sql: ture
         dialect:
-
-#  servlet:
-#    multipart:
-#      max-file-size: 10MB
+  servlet:
+     multipart:
+      max-file-size: 10MB
       max-request-size: 10MB
 
   main:
@@ -24,14 +23,15 @@ logging:
   level:
     org.hibernate.sql: debug
 
-#cloud:
-#  aws:
-#    credentials:
-#      access-key: AKIASY3NG47QFXIOU4BJ
-#      secret-key: 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
-#    s3:
-#      bucket: sch-gdsc-side-project
-#    region:
-#      static: ap-northeast-2
-#    stack:
-#      auto: false
+cloud:
+  aws:
+    credentials:
+      access-key: AKIASY3NG47QGXJPKGPA
+      secret-key: 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
+    s3:
+      bucket: sch-gdsc-side
+      base-url: https://sch-gdsc-side.s3.ap-northeast-2.amazonaws.com
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

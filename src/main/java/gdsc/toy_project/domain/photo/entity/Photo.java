@@ -24,8 +24,7 @@ public class Photo extends BaseTimeEntity {
     @Column(name = "photo_id")
     private Long id;
 
-    private String uploadFilename;  // 작성자가 업로드한 파일명
-    private String storeFilename;
+    private String filePath;
 
     @Enumerated(STRING)
     private Category category;
@@ -35,19 +34,21 @@ public class Photo extends BaseTimeEntity {
     private User user;
 
     @Builder
-    public Photo(String uploadFilename, String storeFilename, User user, Category category) {
-        this.uploadFilename = uploadFilename;
-        this.storeFilename = storeFilename;
+    public Photo(String filePath, User user, Category category) {
+        this.filePath = filePath;
         this.user = user;
         this.category = category;
     }
 
-    public void AddPhoto(String uploadFilename, String storeFilename, Category category) {
-        this.uploadFilename = uploadFilename;
-        this.storeFilename = storeFilename;
-        this.category = category;
+    public static Photo addPhoto(String filePath, Category category, User user) {
+        return builder()
+                .filePath(filePath)
+                .category(category)
+                .user(user)
+                .build();
     }
 
-
-
+    public void changeCategory(Category category) {
+        this.category = category;
+    }
 }
