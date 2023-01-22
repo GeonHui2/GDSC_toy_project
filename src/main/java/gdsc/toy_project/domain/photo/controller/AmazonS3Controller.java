@@ -44,4 +44,9 @@ public class AmazonS3Controller {
         photoService.changeCategory(editCategory);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "카테고리 변경 완료"), HttpStatus.OK);
     }
+
+    @GetMapping("/file/{photoId}")
+    public ResponseEntity getPhotoInfo(@PathVariable(name = "photoId") Long photoId) {
+        photoService.getPhotoInfo(photoId)
+    }
 }
