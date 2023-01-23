@@ -1,9 +1,7 @@
 package gdsc.toy_project.domain.photo.controller;
 
-import gdsc.toy_project.domain.photo.dto.DeletePhoto;
-import gdsc.toy_project.domain.photo.dto.EditCategory;
-import gdsc.toy_project.domain.photo.dto.UploadPhotoResponse;
-import gdsc.toy_project.domain.photo.dto.UploadS3Response;
+import gdsc.toy_project.domain.Category;
+import gdsc.toy_project.domain.photo.dto.*;
 import gdsc.toy_project.domain.photo.service.AwsS3Service;
 import gdsc.toy_project.domain.photo.service.PhotoService;
 import gdsc.toy_project.global.response.DefaultRes;
@@ -24,6 +22,8 @@ public class AmazonS3Controller {
     private final AwsS3Service awsS3Service;
     private final PhotoService photoService;
 
+
+    //사진 업로드
     @PostMapping("/file")
     public ResponseEntity uploadFile(@RequestPart(value = "multipartFile") MultipartFile multipartFile,
                                      @RequestPart(value = "uploadPhotoResponse") UploadPhotoResponse uploadPhotoResponse) {
@@ -32,6 +32,7 @@ public class AmazonS3Controller {
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "이미지 업로드 완료", photoId), HttpStatus.OK);
     }
 
+    //사진 삭제
     @DeleteMapping("/file")
     public ResponseEntity deleteFile(@RequestBody DeletePhoto deletePhoto) {
         awsS3Service.deleteFile(deletePhoto.getFilePath());
@@ -39,14 +40,26 @@ public class AmazonS3Controller {
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "이미지 삭제 완료"), HttpStatus.OK);
     }
 
+    //사진 카테고리 수정
     @PatchMapping("/file")
     public ResponseEntity editCategory(@RequestBody EditCategory editCategory) {
         photoService.changeCategory(editCategory);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "카테고리 변경 완료"), HttpStatus.OK);
     }
 
+    //사진 상세 정보 조회
     @GetMapping("/file/{photoId}")
     public ResponseEntity getPhotoInfo(@PathVariable(name = "photoId") Long photoId) {
-        photoService.getPhotoInfo(photoId)
+        GetPhotoInfo photoInfo = photoService.getPhotoInfo(photoId);
+
+        return photoInfo != null ?
+                new ResponseEntity(DefaultRes.res(StatusCode.OK, "해당 게시글 조회 완료", photoInfo), HttpStatus.OK):
+                new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "조회된 게시글 없음"), HttpStatus.OK);
+    }
+
+    // 카테고리별 사진 리스트 조회
+    @GetMapping("/file/{category}")
+    public ResponseEntity getCategoryInfo(@PathVariable(name = "category") Category category, @RequestBody String uid) {
+
     }
 }
