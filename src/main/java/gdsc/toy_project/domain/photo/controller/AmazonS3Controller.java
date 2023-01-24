@@ -53,13 +53,27 @@ public class AmazonS3Controller {
         GetPhotoInfo photoInfo = photoService.getPhotoInfo(photoId);
 
         return photoInfo != null ?
-                new ResponseEntity(DefaultRes.res(StatusCode.OK, "해당 게시글 조회 완료", photoInfo), HttpStatus.OK):
+                new ResponseEntity(DefaultRes.res(StatusCode.OK, "해당 게시글 조회 완료", photoInfo), HttpStatus.OK) :
                 new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "조회된 게시글 없음"), HttpStatus.OK);
     }
 
     // 카테고리별 사진 리스트 조회
-    @GetMapping("/file/{category}")
-    public ResponseEntity getCategoryInfo(@PathVariable(name = "category") Category category, @RequestBody String uid) {
+    @GetMapping("/file/list/{category}")
+    public ResponseEntity getCategoryInfo(@RequestBody GetCategoryInfo getCategoryInfo) {
+        List<ListPhotoInfo> photoInfoList = photoService.photoInfoList(getCategoryInfo);
 
+        return photoInfoList != null ?
+                new ResponseEntity(DefaultRes.res(StatusCode.OK, "해당 카테고리 리스트 조회 완료", photoInfoList), HttpStatus.OK) :
+                new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "조회된 리스트 없음"), HttpStatus.OK);
+    }
+
+    //카테고리 별 리스트 조회
+    @GetMapping("/file/all")
+    public ResponseEntity getAllInfo(@RequestBody UidDto uid) {
+        List<ListCategoryInfo> categoryInfos = photoService.categoryInfo(uid);
+
+        return categoryInfos != null ?
+                new ResponseEntity(DefaultRes.res(StatusCode.OK, "해당 사용자 사진 리스트 조회 완료", categoryInfos), HttpStatus.OK) :
+                new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "조회된 리스트 없음"), HttpStatus.OK);
     }
 }
