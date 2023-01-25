@@ -26,8 +26,8 @@ logging:
 cloud:
   aws:
     credentials:
-      access-key: AKIASY3NG47QGXJPKGPA
-      secret-key: 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
+      access-key: 
+      secret-key: 
     s3:
       bucket: sch-gdsc-side
       base-url: https://sch-gdsc-side.s3.ap-northeast-2.amazonaws.com
