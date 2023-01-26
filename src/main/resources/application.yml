@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mysql://gdsc-side.ct3lonfczwmg.ap-northeast-2.rds.amazonaws.com:3306/board
+    url: jdbc:mysql://gdsc-side.ct3lonfczwmg.ap-northeast-2.rds.amazonaws.com:3306/gdsc-side
     username: root
     password: 20181549
   jpa:
