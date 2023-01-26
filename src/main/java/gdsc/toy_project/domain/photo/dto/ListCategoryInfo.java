@@ -15,5 +15,5 @@ public class ListCategoryInfo {
 
     private Category category;
     private Long count;
-    private List<Photo> filePathList;
+    private List<String> filePathList;
 }

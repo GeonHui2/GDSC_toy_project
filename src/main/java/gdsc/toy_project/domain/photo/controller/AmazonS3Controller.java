@@ -7,6 +7,7 @@ import gdsc.toy_project.domain.photo.service.PhotoService;
 import gdsc.toy_project.global.response.DefaultRes;
 import gdsc.toy_project.global.response.StatusCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,17 +58,17 @@ public class AmazonS3Controller {
                 new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "조회된 게시글 없음"), HttpStatus.OK);
     }
 
-    // 카테고리별 사진 리스트 조회
-    @GetMapping("/file/list/{category}")
+    // 카테고리 별 사진 리스트 조회
+    @GetMapping("/file/list")
     public ResponseEntity getCategoryInfo(@RequestBody GetCategoryInfo getCategoryInfo) {
-        List<ListPhotoInfo> photoInfoList = photoService.photoInfoList(getCategoryInfo);
+        Slice<ListPhotoInfo> listPhotoInfos = photoService.photoInfoList(getCategoryInfo);
 
-        return photoInfoList != null ?
-                new ResponseEntity(DefaultRes.res(StatusCode.OK, "해당 카테고리 리스트 조회 완료", photoInfoList), HttpStatus.OK) :
+        return listPhotoInfos != null ?
+                new ResponseEntity(DefaultRes.res(StatusCode.OK, "해당 카테고리 리스트 조회 완료", listPhotoInfos), HttpStatus.OK) :
                 new ResponseEntity(DefaultRes.res(StatusCode.BAD_REQUEST, "조회된 리스트 없음"), HttpStatus.OK);
     }
 
-    //카테고리 별 리스트 조회
+    //카테고리 리스트 조회
     @GetMapping("/file/all")
     public ResponseEntity getAllInfo(@RequestBody UidDto uid) {
         List<ListCategoryInfo> categoryInfos = photoService.categoryInfo(uid);
