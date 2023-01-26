@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -98,13 +97,22 @@ public class PhotoService {
                 categoryInfos.add(listCategoryInfo);
             } else if (result == true) {
                 PageRequest pageRequest = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "createdAT"));
-                Page<Photo> top4ByCategoryAndUser = photoRepository.findTop4ByCategoryAndUser(c, user, pageRequest);
+                log.info("pageRequset size = {}", pageRequest.getPageSize());
 
+                log.info("category = {}", c);
+                Page<Photo> byCategoryAndUser = photoRepository.findByCategoryAndUser(c, user, pageRequest);
+                log.info("page size = {}", byCategoryAndUser.getTotalElements());
                 ListCategoryInfo listCategoryInfo = new ListCategoryInfo();
                 listCategoryInfo.setCategory(c);
-                listCategoryInfo.setCount(top4ByCategoryAndUser.getTotalElements());
-                listCategoryInfo.setFilePathList(top4ByCategoryAndUser.getContent().get(1).getFilePath().);
+                listCategoryInfo.setCount(byCategoryAndUser.getTotalElements());
 
+                List<String> filePath = new ArrayList<>();
+
+                for (Photo p : byCategoryAndUser.getContent()) {
+                    filePath.add(p.getFilePath());
+                }
+
+                listCategoryInfo.setFilePathList(filePath);
                 categoryInfos.add(listCategoryInfo);
             }
         }
@@ -112,20 +120,12 @@ public class PhotoService {
     }
 
     // 사진 리스트 조회
-    public List<ListPhotoInfo> photoInfoList (GetCategoryInfo getCategoryInfo) {
+    public Slice<ListPhotoInfo> photoInfoList (GetCategoryInfo getCategoryInfo) {
         User user = userRepository.findByUid(getCategoryInfo.getUid()).get();
-        List<ListPhotoInfo> photoInfoList = new ArrayList<>();
 
-        PageRequest pageRequest = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "createdAT"));
+        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdAT"));
         Slice<Photo> photoList = photoRepository.findAllByCategoryAndUser(getCategoryInfo.getCategory(), user, pageRequest);
-        for (Photo p : photoList) {
-            ListPhotoInfo listPhotoInfo = new ListPhotoInfo();
-            listPhotoInfo.setPhotoId(p.getId());
-            listPhotoInfo.setPhotoPath(p.getFilePath());
-            listPhotoInfo.setUploadAt(p.getCreatedAT());
-
-            photoInfoList.add(listPhotoInfo);
-        }
+        Slice<ListPhotoInfo> photoInfoList = photoList.map(ListPhotoInfo::new);
 
         return photoInfoList;
     }

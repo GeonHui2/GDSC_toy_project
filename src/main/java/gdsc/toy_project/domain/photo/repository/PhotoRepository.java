@@ -18,5 +18,5 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
     Boolean existsByCategoryAndUser(Category category, User user);
 
-    Page<Photo> findTop4ByCategoryAndUser(Category category, User user, Pageable pageable);
+    Page<Photo> findByCategoryAndUser(Category category, User user, Pageable pageable);
 }
