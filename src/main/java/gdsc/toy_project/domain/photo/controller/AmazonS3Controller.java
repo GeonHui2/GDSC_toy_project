@@ -60,8 +60,8 @@ public class AmazonS3Controller {
 
     // 카테고리 별 사진 리스트 조회
     @GetMapping("/file/list")
-    public ResponseEntity getCategoryInfo(@RequestBody GetCategoryInfo getCategoryInfo) {
-        Slice<ListPhotoInfo> listPhotoInfos = photoService.photoInfoList(getCategoryInfo);
+    public ResponseEntity getCategoryInfo(@RequestParam(name = "page") int page, @RequestBody GetCategoryInfo getCategoryInfo) {
+        Slice<ListPhotoInfo> listPhotoInfos = photoService.photoInfoList(page, getCategoryInfo);
 
         return listPhotoInfos != null ?
                 new ResponseEntity(DefaultRes.res(StatusCode.OK, "해당 카테고리 리스트 조회 완료", listPhotoInfos), HttpStatus.OK) :

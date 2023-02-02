@@ -120,10 +120,10 @@ public class PhotoService {
     }
 
     // 사진 리스트 조회
-    public Slice<ListPhotoInfo> photoInfoList (GetCategoryInfo getCategoryInfo) {
+    public Slice<ListPhotoInfo> photoInfoList (int page, GetCategoryInfo getCategoryInfo) {
         User user = userRepository.findByUid(getCategoryInfo.getUid()).get();
 
-        PageRequest pageRequest = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdAT"));
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAT"));
         Slice<Photo> photoList = photoRepository.findAllByCategoryAndUser(getCategoryInfo.getCategory(), user, pageRequest);
         Slice<ListPhotoInfo> photoInfoList = photoList.map(ListPhotoInfo::new);
 
